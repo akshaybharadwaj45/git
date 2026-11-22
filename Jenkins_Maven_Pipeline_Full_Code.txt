@@ -1,0 +1,195 @@
+================================================================================
+JENKINS PIPELINE PROJECT FOR MAVEN JAVA APPLICATION
+================================================================================
+
+AIM:
+To create and execute a Jenkins Declarative Pipeline for a Maven Java project
+using a GitHub repository.
+
+REQUIREMENTS:
+1. Jenkins
+2. Java JDK
+3. Maven
+4. Git
+5. GitHub repository containing pom.xml
+
+--------------------------------------------------------------------------------
+STEP 1: CREATE A NEW PIPELINE ITEM
+--------------------------------------------------------------------------------
+
+1. Open Jenkins in the browser: http://localhost:8081
+2. Login to Jenkins.
+3. Click New Item.
+4. Enter Item Name: MavenPipeline
+5. Select Pipeline.
+6. Click OK.
+
+--------------------------------------------------------------------------------
+STEP 2: CONFIGURE JENKINS TOOLS
+--------------------------------------------------------------------------------
+
+1. Go to Manage Jenkins.
+2. Click Tools.
+3. Configure a JDK installation.
+4. Set its Name to: JDK
+5. Configure a Maven installation.
+6. Set its Name to: MAVEN_HOME
+7. Save the configuration.
+
+NOTE:
+The tool names in Jenkins must exactly match the names used in the Pipeline script.
+
+--------------------------------------------------------------------------------
+STEP 3: ENTER PIPELINE SCRIPT
+--------------------------------------------------------------------------------
+
+1. Open the MavenPipeline project.
+2. Click Configure.
+3. Scroll down to the Pipeline section.
+4. Under Definition, select Pipeline script.
+5. Paste the following complete code:
+
+pipeline {
+    agent any
+
+    tools {
+        maven 'MAVEN_HOME'
+        jdk 'JDK'
+    }
+
+    stages {
+
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/USERNAME/REPOSITORY.git'
+            }
+        }
+
+        stage('Clean') {
+            steps {
+                bat 'mvn clean'
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                bat 'mvn install'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'BUILD SUCCESS'
+        }
+
+        failure {
+            echo 'BUILD FAILED'
+        }
+    }
+}
+
+IMPORTANT:
+Replace USERNAME with your GitHub username.
+Replace REPOSITORY with your GitHub repository name.
+Change main if your repository uses a different branch.
+
+--------------------------------------------------------------------------------
+STEP 4: SAVE AND EXECUTE
+--------------------------------------------------------------------------------
+
+1. Click Apply.
+2. Click Save.
+3. Open the MavenPipeline project.
+4. Click Build Now.
+5. Wait for all stages to complete.
+6. Open the latest build number.
+7. Click Console Output.
+8. Verify that all stages are successful.
+
+--------------------------------------------------------------------------------
+EXPECTED PIPELINE
+--------------------------------------------------------------------------------
+
+Git Checkout
+     |
+     v
+Clean
+     |
+     v
+Compile
+     |
+     v
+Test
+     |
+     v
+Package
+     |
+     v
+Install
+
+EXPECTED OUTPUT:
+
+BUILD SUCCESS
+Finished: SUCCESS
+
+--------------------------------------------------------------------------------
+RESULT:
+Successfully created and executed a Jenkins Declarative Pipeline for a Maven
+Java project using GitHub integration.
+
+================================================================================
+IMPORTANT VIVA QUESTIONS
+================================================================================
+
+1. What is Jenkins?
+   Jenkins is an open-source automation server used for CI/CD.
+
+2. What is Jenkins Pipeline?
+   It is a set of automated stages used to build, test and deploy applications.
+
+3. What is Jenkinsfile?
+   Jenkinsfile is a text file that stores the Pipeline definition.
+
+4. What is Declarative Pipeline?
+   It is a structured syntax used to define Jenkins Pipelines.
+
+5. What is agent any?
+   It allows the Pipeline to run on any available Jenkins agent.
+
+6. What is a stage?
+   A stage represents one phase of the Pipeline.
+
+7. What is Git Checkout?
+   It downloads the source code from a Git repository.
+
+8. What is Maven?
+   Maven is a build automation and dependency management tool.
+
+9. What is pom.xml?
+   It is the Project Object Model file containing project configuration and dependencies.
+
+10. What is CI/CD?
+    CI means Continuous Integration.
+    CD means Continuous Delivery or Continuous Deployment.
+
+================================================================================
