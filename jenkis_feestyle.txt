@@ -1,0 +1,129 @@
+================================================================================
+JENKINS CI/CD FREESTYLE PIPELINE FOR MAVEN JAVA PROJECT
+================================================================================
+
+AIM:
+To create and execute a CI/CD Freestyle Pipeline for a Maven Java Project using Jenkins.
+
+REQUIREMENTS:
+1. Jenkins
+2. Java JDK
+3. Maven
+4. Git
+5. GitHub Repository containing pom.xml
+
+--------------------------------------------------------------------------------
+PART 1: CREATE THE BUILD FREESTYLE PROJECT
+--------------------------------------------------------------------------------
+
+1. Open Jenkins Dashboard.
+2. Click New Item.
+3. Enter Item Name: sample_maven_project_build
+4. Select Freestyle project.
+5. Click OK.
+
+SOURCE CODE MANAGEMENT:
+1. Select Git.
+2. Enter your GitHub Repository URL.
+3. Under Branches to build, enter */main.
+
+BUILD STEPS:
+1. Click Add build step.
+2. Select Invoke top-level Maven targets.
+3. Maven Version: Select MAVEN_HOME.
+4. Goals: clean
+5. Click Add build step again.
+6. Select Invoke top-level Maven targets.
+7. Maven Version: Select MAVEN_HOME.
+8. Goals: install
+
+POST-BUILD ACTIONS:
+1. Click Add post-build action.
+2. Select Archive the artifacts.
+3. Files to archive: **/*
+4. Click Add post-build action again.
+5. Select Build other projects.
+6. Projects to build: sample_maven_project_test
+
+7. Click Apply and Save.
+
+--------------------------------------------------------------------------------
+PART 2: CREATE THE TEST FREESTYLE PROJECT
+--------------------------------------------------------------------------------
+
+1. Go to Jenkins Dashboard.
+2. Click New Item.
+3. Enter Item Name: sample_maven_project_test
+4. Select Freestyle project.
+5. Click OK.
+
+SOURCE CODE MANAGEMENT:
+1. Select None.
+
+BUILD ENVIRONMENT:
+1. Check Delete workspace before build starts.
+
+BUILD STEPS:
+1. Click Add build step.
+2. Select Copy artifacts from another project.
+3. Project name: sample_maven_project_build
+4. Which build: Stable build only.
+5. Artifacts to copy: **/*
+6. Click Add build step again.
+7. Select Invoke top-level Maven targets.
+8. Maven Version: Select MAVEN_HOME.
+9. Goals: test
+
+POST-BUILD ACTIONS:
+1. Click Add post-build action.
+2. Select Archive the artifacts.
+3. Files to archive: **/*
+
+4. Click Apply and Save.
+
+--------------------------------------------------------------------------------
+PART 3: CREATE AND RUN BUILD PIPELINE VIEW
+--------------------------------------------------------------------------------
+
+1. Return to Jenkins Dashboard.
+2. Click the + icon next to the All tab.
+3. Enter View Name: sample_maven_project_pipeline
+4. Select Build Pipeline View.
+5. Click Create.
+
+PIPELINE CONFIGURATION:
+1. Find Select Initial Job.
+2. Select sample_maven_project_build.
+3. Click Apply.
+4. Click OK.
+
+EXECUTION:
+1. Open the sample_maven_project_pipeline view.
+2. Click Run.
+3. Wait for the BUILD job to execute.
+4. After successful BUILD, the TEST job starts automatically.
+5. Verify both jobs are successful.
+6. Open Console Output to check the execution logs.
+
+EXPECTED PIPELINE:
+
+sample_maven_project_build
+          |
+          v
+sample_maven_project_test
+
+BUILD JOB:
+clean → install → Archive Artifacts
+
+TEST JOB:
+Copy Artifacts → test → Archive Artifacts
+
+EXPECTED OUTPUT:
+BUILD SUCCESS
+BUILD SUCCESS
+
+--------------------------------------------------------------------------------
+RESULT:
+Successfully created and executed a Jenkins CI/CD Freestyle Pipeline for a Maven Java Project using BUILD and TEST jobs and verified the successful execution through Build Pipeline View.
+
+================================================================================
