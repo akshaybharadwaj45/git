@@ -1,0 +1,66 @@
+# ==========================================
+# PART 1: docker-compose.yaml File Contents
+# Save this inside a folder (e.g., "compose") as docker-compose.yaml [00:04:23]
+# ==========================================
+
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: password
+    networks:
+      - wpsite
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    ports:
+      - "8000:80"
+    restart: always
+    volumes:
+      - './:/var/www/html'
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: password
+    networks:
+      - wpsite
+
+networks:
+  wpsite:
+volumes:
+  db_data:
+
+
+# ==========================================
+# PART 2: Terminal / PowerShell Commands
+# ==========================================
+
+# 1. Navigate to the folder containing docker-compose.yaml [00:07:53]
+cd <path-to-your-compose-folder>
+
+# 2. Build and start both containers in detached (background) mode [00:08:00]
+docker-compose up -d
+
+# 3. Verify that both WordPress and MySQL containers are running [00:09:17]
+docker ps
+
+# Browser URL: http://localhost:8000 [00:08:42]
+
+# 4. Stop the running containers without deleting them [00:11:00]
+docker-compose stop
+
+# 5. Start the stopped containers again [00:11:37]
+docker-compose start
+
+# 6. Stop and completely remove the containers and network [00:12:24]
+docker-compose down

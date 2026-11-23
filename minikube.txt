@@ -1,0 +1,33 @@
+# 1. Start the local Minikube Kubernetes cluster [00:04:08]
+minikube start
+
+# 2. Create an Nginx deployment named "mynginx" [00:05:19]
+kubectl create deployment mynginx --image=nginx
+
+# 3. Verify that the deployment is created and ready [00:07:18]
+kubectl get deployments
+
+# 4. Expose the deployment as a NodePort service on port 80 [00:07:55]
+kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80
+
+# 5. Scale the deployment to 4 replicas [00:10:29]
+kubectl scale deployment mynginx --replicas=4
+
+# 6. Verify the scaled deployments and running pods [00:11:45]
+kubectl get deployments
+kubectl get pods
+
+# 7. Forward local port 8081 to port 80 of the mynginx service [00:13:09]
+kubectl port-forward svc/mynginx 8081:80
+
+# Browser URL: http://localhost:8081 [00:14:40]
+
+# 8. Open the Kubernetes dashboard (run in a new terminal window) [00:15:37]
+minikube dashboard
+
+# 9. Clean up resources (press Ctrl+C in the port-forward terminal first) [00:16:27]
+kubectl delete deployment mynginx
+kubectl delete service mynginx
+
+# 10. Stop the Minikube cluster [00:16:51]
+minikube stop

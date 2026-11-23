@@ -1,0 +1,89 @@
+# ==========================================
+# PART 1: calculator.js File Contents
+# Save inside a folder (e.g., "DockerExample") as calculator.js [00:01:32]
+# ==========================================
+
+// Function to add two numbers
+function add(a, b) {
+  return a + b;
+}
+
+// Function to subtract two numbers
+function subtract(a, b) {
+  return a - b;
+}
+
+// Function to multiply two numbers
+function multiply(a, b) {
+  return a * b;
+}
+
+// Function to divide two numbers
+function divide(a, b) {
+  if (b === 0) {
+    return "Cannot divide by zero!";
+  }
+  return a / b;
+}
+
+// Print the calculations
+console.log("Addition (2 + 3):", add(2, 3));
+console.log("Subtraction (5 - 2):", subtract(5, 2));
+console.log("Multiplication (4 * 3):", multiply(4, 3));
+console.log("Division (10 / 2):", divide(10, 2));
+
+
+# ==========================================
+# PART 2: Dockerfile Contents
+# Save in the same folder as "Dockerfile" (no file extension) [00:02:30]
+# ==========================================
+
+FROM node:16-alpine
+WORKDIR /app
+COPY calculator.js /app
+CMD ["node", "calculator.js"]
+
+
+# ==========================================
+# PART 3: PowerShell / Terminal Commands
+# Replace <your-dockerhub-username> with your actual Docker Hub ID
+# ==========================================
+
+# 1. Navigate to your project folder [00:05:19]
+cd <path-to-your-DockerExample-folder>
+
+# 2. Build the Docker image from the Dockerfile [00:05:46]
+docker build -t simple-calculator .
+
+# 3. Run the container to verify output [00:06:39]
+docker run simple-calculator
+
+# 4. Check running containers [00:07:18]
+docker ps
+
+# 5. Log in to Docker Hub [00:07:32]
+docker login
+
+# 6. Tag the local image with your Docker Hub username [00:08:27]
+docker tag simple-calculator <your-dockerhub-username>/simple-calculator
+
+# 7. Push the tagged image to Docker Hub [00:09:01]
+docker push <your-dockerhub-username>/simple-calculator
+
+# 8. Check all containers (including stopped ones) and copy the container ID [00:10:07]
+docker ps -a
+
+# 9. Remove the local container and tagged image to test pulling from Docker Hub [00:10:18]
+docker rm <container-id>
+docker rmi <your-dockerhub-username>/simple-calculator
+
+# 10. Pull the image back from Docker Hub and run it [00:10:55]
+docker pull <your-dockerhub-username>/simple-calculator
+docker run <your-dockerhub-username>/simple-calculator
+
+# 11. Final cleanup of containers, images, and session [00:11:28]
+docker ps -a
+docker rm <new-container-id>
+docker rmi <your-dockerhub-username>/simple-calculator
+docker rmi simple-calculator
+docker logout
