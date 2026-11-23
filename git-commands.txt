@@ -1,0 +1,132 @@
+# ==========================================
+# 1. SETUP & CONFIGURATION
+# ==========================================
+
+# Set your identity globally (for your own machine)
+git config --global user.name "akshaybharadwaj45"
+git config --global user.email "<your-email>"
+
+# Set your identity locally (for a single folder, e.g., on a friend's laptop)
+git config --local user.name "akshaybharadwaj45"
+git config --local user.email "<your-email>"
+
+# Check current configuration settings
+git config --list
+
+
+# ==========================================
+# 2. STARTING & CLONING REPOSITORIES
+# ==========================================
+
+# Initialize a new local Git repository in the current folder
+git init
+
+# Clone an existing repository from GitHub
+git clone https://github.com/akshaybharadwaj45/<repo-name>.git
+
+
+# ==========================================
+# 3. STAGING, COMMITTING & CHECKING STATUS
+# ==========================================
+
+# Check modified, staged, and untracked files
+git status
+
+# Stage a specific file
+git add <filename>
+
+# Stage all new, modified, and deleted files
+git add .
+
+# Save staged changes with a commit message
+git commit -m "Your commit message"
+
+# View commit history
+git log
+git log --oneline
+
+
+# ==========================================
+# 4. REMOTE REPOSITORIES (GITHUB)
+# ==========================================
+
+# Link local repo to a GitHub repository
+git remote add origin https://github.com/akshaybharadwaj45/<repo-name>.git
+
+# Link using your username explicitly (forces your login prompt on shared PCs)
+git remote add origin https://akshaybharadwaj45@github.com/akshaybharadwaj45/<repo-name>.git
+
+# View linked remote URLs
+git remote -v
+
+# Change an existing remote URL
+git remote set-url origin https://github.com/akshaybharadwaj45/<repo-name>.git
+
+# Rename default branch to main and push for the first time
+git branch -M main
+git push -u origin main
+
+# Push subsequent commits
+git push
+
+# Pull latest changes from GitHub and merge into current branch
+git pull origin main
+
+
+# ==========================================
+# 5. BRANCHING & MERGING
+# ==========================================
+
+# List all local branches (* marks current branch)
+git branch
+
+# Create a new branch
+git branch <branch-name>
+
+# Switch to an existing branch
+git checkout <branch-name>
+# (Modern alternative)
+git switch <branch-name>
+
+# Create AND switch to a new branch in one command
+git checkout -b <branch-name>
+# (Modern alternative)
+git switch -c <branch-name>
+
+# Merge another branch into your current branch
+git merge <branch-name>
+
+# Delete a local branch after merging
+git branch -d <branch-name>
+
+
+# ==========================================
+# 6. UNDOING MISTAKES & STASHING
+# ==========================================
+
+# Unstage a file (keeps your code changes, removes from staging)
+git reset <filename>
+
+# Discard local uncommitted changes in a specific file
+git checkout -- <filename>
+
+# Undo the last commit while keeping your files intact
+git reset --soft HEAD~1
+
+# Temporarily save uncommitted changes without committing
+git stash
+
+# Restore the most recently stashed changes
+git stash pop
+
+
+# ==========================================
+# 7. COMMON TROUBLESHOOTING
+# ==========================================
+
+# Fix "Updates were rejected because the remote contains work..."
+git pull origin main --rebase
+git push -u origin main
+
+# Force push (overwrites remote history - use with caution)
+git push -f origin main
